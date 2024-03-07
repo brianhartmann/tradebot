@@ -15,7 +15,11 @@
 # print(market_order)
 
 from alpaca.data.live import StockDataStream
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+stream = StockDataStream(os.getenv("alpaca_key"), os.getenv("alpaca_secret"))
 stream = StockDataStream("PKQ3W1FASCOB7DA4K7V5", "BzX3mYthrDL6Vd4XAjQGO1Pz4uI2TMUxE7hMxsIH")
 
 async def handle_trade(data):
