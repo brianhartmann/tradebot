@@ -12,10 +12,10 @@ stream = StockDataStream(os.getenv("alpaca_key"), os.getenv("alpaca_secret"))
 values = []
 
 async def handle_trade(data):
-    trading_algo_sell()
+    # trading_algo_sell()
     values.append(data.price)
-    if len(values) >= 3:
-        trading_algo_buy(values)
+    # if len(values) >= 3:
+    #     trading_algo_buy(values)
 
 print('Starting trading bot...')
 stream.subscribe_trades(handle_trade, "AAPL") #subscribes to receive AAPL trade updates
