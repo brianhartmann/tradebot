@@ -26,11 +26,11 @@ time.sleep(3)
 
 load_dotenv() #loads env file
 id = os.getenv('last_order')
-print(id)
 content = driver.find_element(By.CSS_SELECTOR, "table[class*='sortable paginated-table home-table'")
 body = content.find_element(By.TAG_NAME, "tbody")
 rows = body.find_elements(By.TAG_NAME, "tr")
 new_id = 0
+order_placed = False
 row_count = 0
 for row in rows:
     cols = row.find_elements(By.TAG_NAME, "td")
@@ -51,19 +51,21 @@ for row in rows:
             if (id == stock+order+date.replace(" ", "")):
                 #we've hit the end
                 seen = True
-                print('We have already reacted to this trade. Ending search.')
+                print('There are no more trades to mimic. Stopping program...')
                 break
             else:
                 print(f'Placing a {order} order for {stock} reacting to the trade made by Pelosi on {date}')
                 make_trade(stock, order)
+                order_placed=True
         row+=1
 
     if (row_count == 0):
         new_id=stock+order+date.replace(" ", "")
         dotenv.set_key(dotenv.find_dotenv(), 'last_order', new_id)
-    if (seen == True):
-        id = new_id
-        print(f'Updated id to be {id}')
+    if (seen):
+        if (order_placed):
+            id = new_id
+            print(f'Updated id to be {id}')
         break
     row_count+=1
 
